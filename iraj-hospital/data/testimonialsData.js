@@ -1,0 +1,42 @@
+export const testimonialsData = [
+  {
+    id: 1,
+    name: "Saul Goodman",
+    role: "Patient",
+    avatar: "/images/author-1.jpg",
+    rating: 5,
+    text: "Clear diagnosis and swift treatment—highly recommend IRAJ Hospital. The medical team and nursing staff were prompt, professional, and attentive throughout.",
+  },
+  {
+    id: 2,
+    name: "Sara Wilsson",
+    role: "Patient Attendant",
+    avatar: "/images/author-2.jpg",
+    rating: 5,
+    text: "Supportive nursing and courteous front-desk—great stay. The dedicated ICU facilities and patient monitoring gave us immense peace of mind.",
+  },
+  {
+    id: 3,
+    name: "Jena Karlis",
+    role: "Patient",
+    avatar: "/images/author-3.jpg",
+    rating: 5,
+    text: "Modern facilities, transparent billing—smooth experience. Doctors explained every procedure clearly and took great care of my surgery.",
+  },
+  {
+    id: 4,
+    name: "Matt Brandon",
+    role: "Patient",
+    avatar: "/images/author-4.jpg",
+    rating: 5,
+    text: "Doctors explained everything and followed up post discharge. Truly compassionate and family-centric healthcare right in Gajuwaka.",
+  },
+  {
+    id: 5,
+    name: "John Larson",
+    role: "Patient",
+    avatar: "/images/author-1.jpg",
+    rating: 5,
+    text: "Quick emergency response—grateful to the team. The emergency triage and rapid diagnostic turnaround saved crucial time.",
+  },
+];
