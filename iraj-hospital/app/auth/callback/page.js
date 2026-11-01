@@ -8,8 +8,30 @@ function CallbackHandler() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const rawNext = searchParams.get("next");
-  const next = rawNext && rawNext !== "/" ? rawNext : "/appointment";
+  const [targetPath, setTargetPath] = useState(rawNext || "/appointment");
   const [status, setStatus] = useState("Verifying Google credentials...");
+
+  useEffect(() => {
+    let resolvedNext = rawNext;
+    if (!resolvedNext || resolvedNext === "/") {
+      try {
+        const stored =
+          sessionStorage.getItem("auth_redirect_next") ||
+          localStorage.getItem("auth_redirect_next");
+        if (stored) {
+          resolvedNext = stored;
+          sessionStorage.removeItem("auth_redirect_next");
+          localStorage.removeItem("auth_redirect_next");
+        }
+      } catch (_) {}
+    }
+
+    const finalPath =
+      resolvedNext && resolvedNext !== "/" && resolvedNext.startsWith("/")
+        ? resolvedNext
+        : "/appointment";
+    setTargetPath(finalPath);
+  }, [rawNext]);
 
   useEffect(() => {
     let timeoutId;
@@ -29,12 +51,12 @@ function CallbackHandler() {
 
         setStatus("Signed in successfully! Redirecting...");
         timeoutId = setTimeout(() => {
-          router.replace(next.startsWith("/") ? next : "/appointment");
+          router.replace(targetPath);
         }, 400);
       } catch (err) {
         console.warn("OAuth callback handling note:", err.message);
         timeoutId = setTimeout(() => {
-          router.replace(next.startsWith("/") ? next : "/appointment");
+          router.replace(targetPath);
         }, 600);
       }
     }
@@ -44,7 +66,7 @@ function CallbackHandler() {
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, [next, router, searchParams]);
+  }, [targetPath, router, searchParams]);
 
   return (
     <div

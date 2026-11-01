@@ -183,11 +183,18 @@ export function AuthProvider({ children }) {
       const siteUrl =
         typeof window !== "undefined"
           ? window.location.origin
-          : process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001";
+          : process.env.NEXT_PUBLIC_SITE_URL || "https://main-iraj.vercel.app";
       const targetPath = redirectPath || "/appointment";
-      const redirectTo = `${siteUrl}/auth/callback?next=${encodeURIComponent(
-        targetPath
-      )}`;
+
+      // Save target destination in storage so it persists across Google OAuth redirects
+      if (typeof window !== "undefined") {
+        try {
+          sessionStorage.setItem("auth_redirect_next", targetPath);
+          localStorage.setItem("auth_redirect_next", targetPath);
+        } catch (_) {}
+      }
+
+      const redirectTo = `${siteUrl}/auth/callback`;
 
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
